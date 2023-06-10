@@ -1,0 +1,170 @@
+                                                             RECURSION BASIC QUESTIONS
+
+
+
+PRINT 1 TO N WITHOUT LOOP:
+
+ public:
+    //Complete this function
+    int i=1;
+    void printNos(int N)
+    {
+        if(i>N)
+        {
+            return ;
+        }
+        cout<<i<<" ";
+        i++;
+        printNos(N);
+        
+    }
+
+TIME COMPLEXITY: 0(N)
+
+SPACE COMPLEXITY: 0(N) (THAT MUCH AUXILIARY SPACE IS TAKEN IN THE STACK SPACE IN THE MEMORY)(THAT MANY FUNCTIONS WAIT)
+
+
+SUM OF FIRST N TERMS: CALCULATE THE SUM OF CUBE OF N TERMS
+
+long long calcSum(long long i,long long sum)
+    {
+        if(i<1)
+        {
+            return sum;
+        }
+        else
+        {
+            return calcSum(i-1,sum+i*i*i);
+        }
+    }
+    long long sumOfSeries(long long N) {
+        long long sum=calcSum(N,0);
+        return sum;
+    }
+
+
+LOGIC: WE make the use of parametized functions that are functions where we pass parameters as result and value and change their value recursively.
+
+TIME COMPLEXITY: 0(N)
+
+SPACE COMPLEXITY: 0(N) (THAT MUCH AUXILIARY SPACE IS TAKEN IN THE STACK SPACE IN THE MEMORY)(THAT MANY FUNCTIONS WAIT)
+
+
+
+FACTORIAL OF TERMS LESS THAN N: these have the all the terms factorial which are less than N.
+
+
+RECURSIVE APPROACH:
+
+ long long factorial(long long n)
+    {
+        if(n==0)
+        {
+            return 1;
+        }
+        else
+        {
+            return n*factorial(n-1);
+        }
+    }
+    vector<long long> factorialNumbers(long long N)
+    {
+        vector<long long>ans;
+        int i=1;
+        while(factorial(i)<=N)
+        {
+            if(factorial(i)<=N)                                    
+
+            {
+                ans.push_back(factorial(i));
+            }
+            i++;
+        }
+        return ans;
+    }
+
+normal approach:
+
+ vector<long long>ans;
+        int i=2;
+        long long fact=1;
+        while(fact<=N)
+        {
+            ans.push_back(fact);
+            fact=fact*i++;
+        }
+        return ans;
+
+LOGIC: HERE WE CALCULATE THE FACTORIAL IN EACH TURN and then just push that value after checking the required condition
+
+
+RECURSIVE APPROACH:
+TIME COMPLEXITY: 0(N)
+ SPACE COMPLEXITY: 0(N) (THAT MUCH AUXILIARY SPACE IS TAKEN IN THE STACK SPACE IN THE MEMORY)(THAT MANY FUNCTIONS WAIT)
+
+NORMAL APPROACH:
+TIME COMPLEXITY: 0(N)
+ SPACE COMPLEXITY: 0(1)
+
+
+CHECK IF THE PALINDROME IS VALID OR NOT:ALSO THE CHARACTER SHOULD BE ALPHABET AND DIGIT ONLY(NO SPECIAL CHARACTERS)
+ bool ischeck(string &s1,int l,int r)
+    {
+        if(l>r)
+        {
+                return true;
+        }
+        if(s1[l]!=s1[r])
+        {
+            return false;
+        }
+        return ischeck(s1,l+1,r-1);
+        
+    }
+    bool isPalindrome(string s) {
+     string clone;
+     for(int i=0;i<s.length();i++)
+    {
+        if(isupper(s[i]))
+        {
+           s[i]=tolower(s[i]);
+        }
+        if(islower(s[i]))
+        {
+            clone+=s[i];
+        }                //here instead of isupper and islower we can use isalnum which says whether the given character is alphabet or digit or not. 
+        if(isdigit(s[i]))
+        {
+            clone+=s[i];
+        }
+    }
+    return ischeck(clone,0,clone.length()-1);
+    }
+
+
+LOGIC:we just keep comparing the first and the last characters and the second and the second last character and so on and if we get a non equal then it is false or it is true if it has fully traversed half of the length of the string.
+
+
+TIME COMPLEXITY: 0(N)
+ SPACE COMPLEXITY: 0(N) (THAT MUCH AUXILIARY SPACE IS TAKEN IN THE STACK SPACE IN THE MEMORY)(THAT MANY FUNCTIONS WAIT)
+
+
+FIBONACCI SERIES:
+
+ int fib(int n) {
+      if(n<=1)
+      {
+          return n;
+      }
+      int last=fib(n-2);
+      int slast=fib(n-1);
+      return last+slast;  
+    }
+
+LOGIC: just remember that the first and second term of the series is 0 and 1 and it makes a recursive tree.
+
+TIME COMPLEXITY: 0(2^N)
+ SPACE COMPLEXITY: 0(N) (THAT MUCH AUXILIARY SPACE IS TAKEN IN THE STACK SPACE IN THE MEMORY)(THAT MANY FUNCTIONS WAIT)
+
+
+

@@ -1,0 +1,195 @@
+
+								STRIVERS SHEET QUESTIONS
+
+
+
+reverse a number: (not allowed to store 64 bit storage integers and overflow for greater than 2^31 -1 and less than 2^31)
+
+ int reverse(int x) {
+        int res=0;
+        int pop;
+        while(x)
+        {     pop=x%10;
+	// you can emit the equal and the pop greater than or less than part as pop can only be 0,1 as if pop is greater than 1 that means the original no exceeded its upper bound of 2147483647 and lower bound of -2147483568.
+            if(res>INT_MAX/10 || (res==INT_MAX/10 && pop>7)) return 0;  
+        if(res<INT_MIN/10 || (res==INT_MAX/10 && pop<-8)) return 0;
+       
+            res=res*10+pop;
+            x=x/10;
+        }
+        return res;
+    }
+
+
+LOGIC:  we simply reverse the number and check that if the result is greater than intmax /10 that is the condition for overflow and the condition for underflow is less than intmin/10.
+if they are equal then the overflow pop is greater than 7 and for underflow the pop is less than -8.
+
+TIME COMPLEXITY: 0(log x) then we have total of log10x digits in x.
+SPACE COMPLEXITY:0(1)
+
+
+
+
+count digits: count the digits of a number which evenly divide the number.
+bool isDivisible(string N,int digit)
+    {
+        int ans=0;
+        for(int i=0;i<N.length();i++)
+        {
+            ans=ans*10+(N[i]-'0');
+            
+            ans=ans%digit;
+        }
+        return ans==0;
+    }
+    int evenlyDivides(int N){
+        int result=0;
+        string n=to_string(N);
+        bool divide[10]={false};
+        divide[1]=true;
+        for(int i=2;i<=9;i++)
+        {
+            if(isDivisible(n,i)==true)
+            {
+                divide[i]=true;
+            }
+        }
+        for(int i=0;i<n.length();i++)
+        {
+            if(divide[n[i]-'0']==true)
+            {
+                result++;
+            }
+        }
+        return result;
+    }
+
+LOGIC:  just take an array with the digits 0-9 and set it as false and then check which digits divide the  number by converting the number to a string.then  set the digit which divide as true.then finally check which are true and then increment.
+
+TIME COMPLEXITY: 0(1)
+SPACE COMPLEXITY:0(1)
+
+
+check palindrome: check whether the given no is a palindrome or not without converting it to a string
+
+bool isPalindrome(int x) {
+        if(x<0 || (x%10==0 && x!=0))
+        {
+            return false;
+        }
+        int temp=0;
+        while(x>temp)
+        {
+            temp=temp*10+x%10;
+            x=x/10;
+        }
+        return x==temp || x==temp/10;
+    }
+
+LOGIC:  just half reverse the no and it should be equal to the original no if it  is a palindrome.
+to check wheather half is reversed the reverse no is greater than the original no
+if last digit is 0 and the no is not 0 then it is not a palindrome and such is the case for negative numbers
+finally as mid value doesnt matter(when it became greater) thus we just check the temp no with the original or the temp after the last digit with the original number.
+
+TIME COMPLEXITY: 0(log x) where it is the no of digits
+SPACE COMPLEXITY:0(1)
+
+
+LCM and GCD of two numbers:  LCM is the least common multiple hence it can be said that is the the number which both the given numbers can evenly divide while GCDis the greatest common divisor that means it is the number which divides both the given number evenly
+ long long GCD(long long a,long long b)
+    {
+        if(b==0)
+        {
+            return a;
+        }
+        else
+        {
+            return GCD(b,a%b);
+        }
+    }
+  public:
+    vector<long long> lcmAndGcd(long long A , long long B) {
+        long long gcd=GCD(A,B);
+        long long LCM=(A*B)/gcd;
+        
+        return vector<long long>{LCM,gcd};
+    }
+
+
+LOGIC:  Calculate the gcd using the euclidean algorithm where we keep dividing the larger no by the smaller no  and replace the smaller no by it and the greater number by the smaller no and when the mod gives 0 then the other term is gcd.
+
+TIME COMPLEXITY: 0(log fi min(a,b) where fi is 1.61
+SPACE COMPLEXITY:0(1)
+
+
+Armstrong of a three digit number:
+
+bool ArmstrongNumber(int n)
+{
+    int originalno = n;
+    int count = 0;
+    int temp = n;
+    while (temp != 0)
+    {
+        count++;
+        temp = temp / 10;
+    }
+    int sumofpower = 0;
+    while (n != 0)
+    {
+        int digit = n % 10;
+        sumofpower += pow(digit,count);
+        n /= 10;
+    }
+    return (sumofpower == originalno);
+}
+LOGIC:  just take the cube of each digit using mod for digit and pow for power to the count of the digits found using while loop and then just add and see if it is equal to the original no then return "Yes" else return "No" for the GFG problem.
+
+TIME COMPLEXITY: 0(1)
+SPACE COMPLEXITY:0(1)
+
+SUM OF DIVISOR FROM 1 TO N: EVERY TERM TILL N AND ALL ITS DIVISORS SUM.
+ long long sumOfDivisors(int N)
+    {   long long sum=0;
+        for(int i=1;i<=N;i++)
+        {
+            sum+=(N/i)*i;
+        }
+        return sum;
+    }
+LOGIC:  THE LOGIC HERE IS pretty simple we just take the value (N/i) which is basically the divisor which occurs while when we multiply it by i it indicates the number of times that it has occured.
+
+TIME COMPLEXITY: 0(N)
+SPACE COMPLEXITY:0(1)
+
+
+
+MINIMUM JUMPS TO REACH THE END OF AN ARRAY: can move using the given value equal to or less than it
+
+int minJumps(int arr[], int n){
+        int jump=0;
+        int pos=0;
+        int des=0;
+        for(int i=0;i<n-1;i++)
+        {
+            des=max(des,i+arr[i]);
+            if(pos==i)
+            {
+                pos=des;
+                jump++;
+            }
+        }
+        if(pos>=n-1)
+        {
+            return jump;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+
+LOGIC:simply we take three variable jump which tracks jumps pos and des which indicate the position and destination respectively,Now we move and check if we go from the index to its value using i+arr[i]then does it give us max destination or not.we keep track of the max destination and we check for every i if the pos is equal to i then we increment jump (we jump from that location) and then put the pos=des.we run the loop for before the last element and if the last element is reached indicated by pos>=n-1 and if it is not reached then return -1. 
+
+TIME COMPLEXITY:0(N)
+SPACE COMPLEXITY:0(1)

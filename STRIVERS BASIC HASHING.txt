@@ -1,0 +1,166 @@
+									STRIVERS BASIC HASHING
+
+
+COUNT OF THE FREQUENCY OF A LIMITED RANGE ARRAY ELEMENTS:
+
+METHOD OF ADDING COUNTINUOUSLY:
+void frequencyCount(vector<int>& arr,int N, int P)
+    { 
+        for(int i=0;i<N;i++)
+        {
+            if((arr[i]-1)%(P+1)<N)
+            {
+                arr[(arr[i]-1)%(P+1)]+=P+1;
+            }
+        }
+        for(int i=0;i<N;i++)
+        {
+            arr[i]/=P+1;
+        }
+    }
+
+TIME COMPLEXITY: 0(N)
+
+SPACE COMPLEXITY: 0(1) 
+
+METHOD OF KEEPING FREQUENCY NEGATIVE:
+
+int i=0;
+       while(i<N)
+       {
+           if(arr[i]<=0||arr[i]>N||arr[i]>P)
+           {
+               i++;
+               continue;
+           }
+           int element_index=arr[i]-1;
+           
+           if(arr[element_index]>0)
+           {
+               arr[i]=arr[element_index];
+               arr[element_index]=-1;
+           }
+           else
+           {
+               arr[element_index]--;
+               arr[i]=0;
+               i++;
+           }
+       }
+       for(int i=0;i<N;i++)
+       {
+           if(arr[i]<0)
+           {
+               arr[i]=-1*arr[i];
+           }
+           else
+           {
+               arr[i]=0;
+           }
+       }
+
+TIME COMPLEXITY: 0(N)
+
+SPACE COMPLEXITY: 0(1) 
+
+
+USING HASHING:
+
+class Solution{
+    public:
+    //Function to count the frequency of all elements from 1 to N in the array.
+    void frequencyCount(vector<int>& arr,int N, int P)
+    { 
+       unordered_map<int,int>count;
+       for(int i=0;i<N;i++)
+       {
+           count[arr[i]]++;
+       }
+       for(int i=0;i<N;i++)
+       {
+           arr[i]=count[i+1];
+       }
+    }
+};
+
+TIME COMPLEXITY: 0(N)
+
+SPACE COMPLEXITY: 0(N)(using the MAP)
+
+ FREQUENCY OF MOST FREQUENT ELEMENT:frequency of the element which has become most frequent by performing k operations in one operation value is incremented by 1.
+
+
+ACTUAL SOLUTION:
+long i=0;
+        long ans=1;
+        long sum=0;
+        sort(begin(nums),end(nums));
+        for(int j=0;j<nums.size();j++)
+        {
+            sum+=nums[j];
+            while((j-i+1)*nums[j]-sum>k)
+            {
+                sum-=nums[i++];
+            }
+            ans=max(ans,j-i+1);
+        }
+        return ans;
+    }
+TIME COMPLEXITY:O(NLOGN)
+SPACE COMPLEXITY:0(1)
+
+NON SHRINKABLE ACTUAL SOLUTION:
+class Solution {
+public:
+    int maxFrequency(vector<int>& nums, int k) {
+        long i=0,j=0;
+        long ans=1;
+        long sum=0;
+        sort(begin(nums),end(nums));
+        for(;j<nums.size();j++)
+        {
+            sum+=nums[j];
+           if((j-i+1)*nums[j]-sum>k)
+            {
+                sum-=nums[i++];
+            }
+        }
+        return j-i;
+    }
+};
+
+TIME COMPLEXITY:O(NLOGN)
+SPACE COMPLEXITY:0(1)
+
+
+Uses sliding window concept
+IMPORTANT:
+TEMPLATE FOR SHRINKABLE:
+int i = 0, j = 0, ans = 0;
+for (; j < N; ++j) {
+    // CODE: use A[j] to update state which might make the window invalid
+    for (; invalid(); ++i) { // when invalid, keep shrinking the left edge until it's valid again
+        // CODE: update state using A[i]
+    }
+    ans = max(ans, j - i + 1); // the window [i, j] is the maximum window we've found thus far
+}
+return ans;
+
+TEMPLATE FOR NON SHRINKABLE:
+int i = 0, j = 0;
+for (; j < N; ++j) {
+    // CODE: use A[j] to update state which might make the window invalid
+    if (invalid()) { // Increment the left edge ONLY when the window is invalid. In this way, the window GROWs when it's valid, and SHIFTs when it's invalid
+        // CODE: update state using A[i]
+        ++i;
+    }
+    // after `++j` in the for loop, this window `[i, j)` of length `j - i` MIGHT be valid.
+}
+return j - i; // There must be a maximum window of size `j - i`.
+
+
+Essentially, we GROW the window when it's valid, and SHIFT the window when it's invalid.
+
+Note that there is only a SINGLE for loop now!
+
+
